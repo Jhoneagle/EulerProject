@@ -1,3 +1,3 @@
 # Euler project
 
-C++ implementations for [ProjectEulers](https://projecteuler.net/archives) challenges.
+C++ implementations for [Project Euler](https://projecteuler.net/archives)s challenges.
