@@ -15,13 +15,29 @@ using namespace std;
 
 typedef long long num;
 
+bool isPythagorean(int a, int b, int c) {
+  return (pow(a, 2) + pow(b, 2)) == pow(c, 2);
+}
+
 int main() {
   cin.sync_with_stdio(0);
   cin.tie(0);
   int a, b, c;
   
+  for (int iA = 1; iA <= 332; iA++) {
+    for (int iB = iA + 1; (iA + iB) <= 665; iB++) {
+      for (int iC = iB + 1; (iA + iB + iC) <= 1000; iC++) {
+        if ((iA + iB + iC) == 1000) {
+	  if (isPythagorean(iA, iB, iC)) {
+	    a = iA;
+	    b = iB;
+	    c = iC;
+	  }
+	}
+      }
+    }
+  }
   
-  
-  cout << "a: " << a << ",b: " << b << ",c: " << c << "\n";
+  cout << "a: " << a << ", b: " << b << ", c: " << c << "\n";
   return 0;
 }
