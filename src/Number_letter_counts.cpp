@@ -13,17 +13,63 @@ using namespace std;
 
 typedef long long num;
 
-string firstNineteen[19] = {"one", "two", "three", "four", "five", 
-	"six", "seven", "eight", "nine", "ten", "eleven", 
-	"twelve", "thirteen", "fourteen", "fifteen", "sixteen", 
-	"seventeen", "eighteen", "nineteen"};
+int proper[20] = {
+  0, strlen("one"),
+  strlen("two"),
+  strlen("three"),
+  strlen("four"),
+  strlen("five"),
+  strlen("six"),
+  strlen("seven"),
+  strlen("eight"),
+  strlen("nine"),
+  strlen("ten"),
+  strlen("eleven"),
+  strlen("twelve"),
+  strlen("thirteen"),
+  strlen("fourteen"),
+  strlen("fifteen"),
+  strlen("sixteen"),
+  strlen("seventeen"),
+  strlen("eighteen"),
+  strlen("nineteen")
+};
 
-string tens[8] = {"twenty", "thirty", "forty", "fifty", "sixty",
-	"seventy", "eighty", "ninety"};
+int tenth[8] = {
+  strlen("twenty"),
+  strlen("thirty"),
+  strlen("forty"),
+  strlen("fifty"),
+  strlen("sixty"),
+  strlen("seventy"),
+  strlen("eighty"),
+  strlen("ninety")
+};
 
-string fixes[3] = {"hundred", "thousand", "million"};
+int noAdditionInName(int n) {
+  if (n < 20) {
+    return proper[n];
+  } else {
+    return tenth[n / 10 - 2 | 0] + proper[n % 10];
+  }
+}
 
-string conjuction = "and";
+int numberLength(int n) {
+  if (n < 100) return noAdditionInName(n);
+
+  int res = 0;
+  int h = (int) floor(n / 100) % 10;
+  int t = (int) floor(n / 1000);
+  int s = n % 100;
+
+  if (n > 999) res += noAdditionInName(t) + strlen("thousand");
+    
+  if (h != 0) res += proper[h] + strlen("hundred");
+  
+  if (s != 0) res += strlen("and") + noAdditionInName(s);
+  
+  return res;
+}
 
 int main() {
   cin.sync_with_stdio(0);
@@ -31,7 +77,7 @@ int main() {
   int l = 0;
   
   for (int i = 1; i <= 1000; i++) {
-    
+    l += numberLength(i);
   }
   
   cout << l << "\n";
