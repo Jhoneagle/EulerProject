@@ -46,6 +46,14 @@ int tenth[8] = {
   strlen("ninety")
 };
 
+int addWords[6] = {
+  0, strlen("thousand"), 
+  strlen("million"),
+  strlen("billion"),
+  strlen("trillion"),
+  strlen("quadrillion")
+};
+
 int noAdditionInName(int n) {
   if (n < 20) {
     return proper[n];
@@ -57,16 +65,34 @@ int noAdditionInName(int n) {
 int numberLength(int n) {
   if (n < 100) return noAdditionInName(n);
 
-  int res = 0;
-  int h = (int) floor(n / 100) % 10;
-  int t = (int) floor(n / 1000);
-  int s = n % 100;
-
-  if (n > 999) res += noAdditionInName(t) + strlen("thousand");
-    
-  if (h != 0) res += proper[h] + strlen("hundred");
+  string r = to_string(n);
+  vector<int> pieces;
   
-  if (s != 0) res += strlen("and") + noAdditionInName(s);
+  int i;
+  for (i = r.size() - 3; i >= 0; i -= 3) { 
+    pieces.push_back(stoi(r.substr(i, 3)));
+  }
+  
+  i += 3;
+  if (i != 0) pieces.push_back(stoi(r.substr(0, i)));
+  
+  int res = 0;
+  int prefix = 0;
+  
+  for (int i = pieces.size() - 1; i >= 0; i--) {
+    int c = pieces[i];
+    int h = (int) floor(c / 100) % 10;
+    int s = c % 100;
+    
+    res += addWords[prefix];
+    prefix++;
+    
+    if (h != 0) res += proper[h] + strlen("hundred");
+    
+    if (s != 0) res += noAdditionInName(s);
+    
+    if (s != 0 && h != 0) res += strlen("and");
+  }	  
   
   return res;
 }
