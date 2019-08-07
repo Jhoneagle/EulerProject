@@ -14,13 +14,42 @@ using namespace std;
 
 typedef long long num;
 
+int sumOfFactors(int number) {
+  int root = (int) sqrt(number);
+  int sum = 1;
+ 
+  if (number == root * root) {
+    sum += root;
+    root--;
+  }
+  
+  for (int i = 2; i <= root; i++) {
+    if (number % i == 0) {
+      sum += i + (number / i);
+    }
+  }
+  
+  return sum;
+}
+
 int main() {
   cin.sync_with_stdio(0);
   cin.tie(0);
   
-  int sum = 0;
+  int sum = 0, limit = 10000;
+  int factorsi, factorsj;
   
-  
+  for (int i = 2; i <= limit; i++) {
+    factorsi = sumOfFactors(i);
+    
+    if (factorsi > i && factorsi <= limit) {
+      factorsj = sumOfFactors(factorsi);
+      
+      if (factorsj == i) {
+        sum += i + factorsi;
+      }
+    }
+  }
   
   cout << sum << "\n";
   return 0;
